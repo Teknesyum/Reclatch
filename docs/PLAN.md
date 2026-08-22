@@ -92,13 +92,32 @@ olmalı.
 fiziksel piksele çevrilmeli. v1'de bölge tek monitörle sınırlı kalsın; iki WGC oturumu
 dikip birleştirmeye kalkma.
 
+**Yığın: C# / .NET 8 + WPF.** (fable görüşü, 22.08.2026)
+
+C++'ın hız avantajı bu mimaride bir yere değmiyor, çünkü sıcak yol yönetilen kodda
+değil: yakalama DWM/GPU'da, kırpma `CopySubresourceRegion` ile GPU'da, kodlama ffmpeg
+sürecinde. C# tarafına kalan iş readback ve boruya yazma — bu memcpy ve DMA işi, dil
+hızı işi değil. Aynı `Map`/`WriteFile` çağrıları her iki dilde de aynı.
+
+Çöp toplayıcı gerçek ama çözülmüş bir tehdit. Kare arabellekleri önden ayrılır
+(`Marshal.AllocHGlobal` veya pinned), sıcak yolda sıfır ayırma kurulur, gerekirse
+`SustainedLowLatency` kipine geçilir. Kare başına yeni dizi ayrılmadığı sürece Gen0
+duraklaması (<1 ms) 16.6 ms'lik bütçeyi yemez.
+
+C++'ın bedeli somut: WPF yerine elle Win32/kompozisyon arayüz, tepsiden overlay'e kadar
+her şey pahalı, hata ayıklama yavaş. Karma yol (C++ çekirdek + C# arayüz) çekirdekte
+C++'ı gerektiren iş yokken iki dilin maliyetini birden ödetir.
+
+**Sonraya not — readback'ten kaçış yolu.** Kareyi CPU'ya indirip ham olarak boruya
+vermek 1080p60'ta kabaca 190 MB/s demek. Kareyi GPU'da tutup Media Foundation **encoder
+MFT**'sine verip ffmpeg'e yalnız kodlanmış akışı göndermek bunu ~1 MB/s'ye indirir.
+Dikkat: MF *sink writer* iki ses izi yüzünden elenmişti, ama *encoder MFT* ayrı bir
+şeydir — o eleme bunu kapsamıyor.
+
+Yine de v1 ham boruyla başlar: basit ve hata ayıklanabilir. Readback CPU'yu ya da
+senkronu zorlarsa MFT yoluna geçilir. Bu ihtimal de C++'ı gerektirmez; MFT C#'tan
+CsWinRT/COM ile sürülebilir.
+
 ## Açık karar
 
-**Yığın.** WGC ve WASAPI'nin ikisi de WinRT/COM. Adaylar:
-   - **C# / .NET 8 + WPF** — oturmuş, az sürpriz; CsWinRT ile WGC çalışır, kompozisyon
-     katmanı biraz elle bağlanır.
-   - **C# / .NET 8 + WinUI 3** — daha yeni kompozisyon, ama dağıtım için self-contained
-     yayın gerekir.
-   - **C++ / WinRT** — en az katman, en yüksek maliyet.
-
-Bu karar bağlanmadan `src/` açılmadı.
+Kalmadı. Sırada `src/` iskeleti var.
