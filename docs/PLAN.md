@@ -71,7 +71,7 @@ LGPL derlemede x264 yoksa `h264_mf` kullanılabilir.
 Karma yol (MF ile başla, dar gelirse geç) reddedildi: MF baştan dar, sonradan değil.
 
 **Asıl maliyet kodekte değil besleme katmanında.** stdin tek borudur; ham video + iki
-ses akışını aynı ffmpeg sürecine vermek Windows'ta adlandırılmış boru (`\.\pipe\...`)
+ses akışını aynı ffmpeg sürecine vermek Windows'ta adlandırılmış boru (`\\.\pipe\...`)
 gerektirir ve zaman damgası disiplinini biz kurarız. Senkron riski buradadır.
 
 **Bölge seçimi: overlay arayüz + kare kırpma.** (fable görüşü, 22.08.2026)
