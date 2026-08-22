@@ -7,12 +7,15 @@ Tek iş: ekranı kaydet, dosyayı ver.
 
 - Yakalama: Windows.Graphics.Capture (WGC)
 - Ses: WASAPI loopback (sistem) + mikrofon, ayrı kanallar
-- Kodlama: donanım (NVENC / QuickSync / AMF), yazılım geri düşüşü
+- Kodlama: ffmpeg ayrı süreç, donanım (NVENC / QuickSync / AMF)
+- Yığın: C# / .NET 8 + WPF
 
 ## Düzen
 
 - `docs/PLAN.md` — kapsam, v1 listesi, açık kararlar
-- `src/` — uygulama kaynağı (yığın seçilince açılır)
+- `src/Reclatch.Core` — yakalama ve ses, arayüzsüz
+- `src/Reclatch.App` — WPF arayüz
+- `locale/` — arayüz metinleri, koda gömülmez
 
 ## Kurallar
 

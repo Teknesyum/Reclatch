@@ -118,6 +118,10 @@ Yine de v1 ham boruyla başlar: basit ve hata ayıklanabilir. Readback CPU'yu ya
 senkronu zorlarsa MFT yoluna geçilir. Bu ihtimal de C++'ı gerektirmez; MFT C#'tan
 CsWinRT/COM ile sürülebilir.
 
-## Açık karar
+## Durum
 
-Kalmadı. Sırada `src/` iskeleti var.
+Açık karar kalmadı. `src/` iskeleti kuruldu ve yakalama zinciri bu makinede doğrulandı:
+2560×1440, kare akıyor, büyütülmüş pencere çalışma alanını taşımıyor, TR/EN geçişi
+kırpmadan çalışıyor.
+
+Sırada v1 listesinin 5. maddesi var: WASAPI loopback ile sistem sesi.

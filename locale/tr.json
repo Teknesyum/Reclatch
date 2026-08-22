@@ -1,0 +1,22 @@
+{
+  "app.title": "Reclatch",
+  "smoke.heading": "Yakalama duman testi",
+  "smoke.intro": "Bu pencere birincil monitörü Windows.Graphics.Capture ile yakalar ve gelen kareleri sayar. Henüz hiçbir şey diske yazılmıyor.",
+  "smoke.purpose": "Amaç tek şeyi doğrulamak: yakalama zinciri bu makinede ayakta mı.",
+  "label.frames": "Gelen kare",
+  "label.resolution": "Çözünürlük",
+  "label.fps": "Kare hızı",
+  "label.state": "Durum",
+  "state.idle": "Beklemede",
+  "state.running": "Yakalıyor",
+  "state.unsupported": "Desteklenmiyor",
+  "btn.start": "Başlat",
+  "btn.stop": "Durdur",
+  "btn.language": "EN",
+  "btn.support": "Destek",
+  "error.unsupported": "Windows.Graphics.Capture bu makinede desteklenmiyor. Windows 10 sürüm 1903 veya üstü gerekir.",
+  "error.failed": "Yakalama başlatılamadı: {message}",
+  "caption.minimize": "Küçült",
+  "caption.maximize": "Büyüt",
+  "caption.close": "Kapat"
+}

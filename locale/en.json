@@ -1,0 +1,22 @@
+{
+  "app.title": "Reclatch",
+  "smoke.heading": "Capture smoke test",
+  "smoke.intro": "This window captures the primary monitor through Windows.Graphics.Capture and counts the frames that arrive. Nothing is written to disk yet.",
+  "smoke.purpose": "It verifies one thing: whether the capture chain stands up on this machine.",
+  "label.frames": "Frames received",
+  "label.resolution": "Resolution",
+  "label.fps": "Frame rate",
+  "label.state": "State",
+  "state.idle": "Idle",
+  "state.running": "Capturing",
+  "state.unsupported": "Unsupported",
+  "btn.start": "Start",
+  "btn.stop": "Stop",
+  "btn.language": "TR",
+  "btn.support": "Support",
+  "error.unsupported": "Windows.Graphics.Capture is not supported on this machine. Windows 10 version 1903 or newer is required.",
+  "error.failed": "Capture could not start: {message}",
+  "caption.minimize": "Minimise",
+  "caption.maximize": "Maximise",
+  "caption.close": "Close"
+}
