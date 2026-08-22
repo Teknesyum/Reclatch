@@ -54,20 +54,51 @@ Webcam overlay, sahne/kaynak sistemi, canlı yayın (RTMP), oyun içi overlay,
 - **Kodlama:** Media Foundation Sink Writer donanım kodlayıcıyı kendisi seçebiliyor;
   NVENC/QuickSync/AMF'yi ayrı ayrı sarmalamak yerine önce bu denenmeli.
 
-## Açık kararlar
+## Kararlar
 
-**1. Yığın.** WGC ve WASAPI'nin ikisi de WinRT/COM. Adaylar:
-   - **C# / .NET 8 + WinUI 3** — CsWinRT ile WGC doğrudan çağrılır, Runly'de zaten
-     .NET var. Dağıtım için self-contained yayın gerekir.
-   - **C# / .NET 8 + WPF** — daha oturmuş, daha az sürpriz; WGC yine çalışır,
-     kompozisyon katmanı biraz elle bağlanır.
+**Kayıt hattı: ffmpeg, ayrı süreç olarak.** (fable görüşü, 22.08.2026)
+
+Media Foundation elenmesinin sebebi tek bir v1 maddesi: sistem sesi ile mikrofonun
+ayrı izler olarak yazılması. MF'nin MPEG-4 sink'i pratikte bir video + bir ses akışına
+göre yazılmış; ikinci ses izi belgelenmemiş bölge. ffmpeg'de `-map` ile önemsiz bir iş.
+Çökme dayanıklılığı da ffmpeg'de tek bayrak: `-movflags +frag_keyframe+empty_moov`.
+
+Lisans engel değil — ffmpeg ayrı süreç olarak çalıştığı sürece uygulama GPL'e bulaşmaz,
+ikilinin lisansını ve kaynağa bağlantıyı vermek yeter. Donanım kodlayıcıları
+(`h264_nvenc`, `h264_qsv`, `h264_amf`) ffmpeg zaten sarıyor; yazılım geri düşüşü için
+LGPL derlemede x264 yoksa `h264_mf` kullanılabilir.
+
+Karma yol (MF ile başla, dar gelirse geç) reddedildi: MF baştan dar, sonradan değil.
+
+**Asıl maliyet kodekte değil besleme katmanında.** stdin tek borudur; ham video + iki
+ses akışını aynı ffmpeg sürecine vermek Windows'ta adlandırılmış boru (`\.\pipe\...`)
+gerektirir ve zaman damgası disiplinini biz kurarız. Senkron riski buradadır.
+
+**Bölge seçimi: overlay arayüz + kare kırpma.** (fable görüşü, 22.08.2026)
+
+Soru yanlış kurulmuştu — ikisi rakip değil. WGC yalnız monitör veya pencere
+(`GraphicsCaptureItem`) yakalar, alt-bölge API'si yok; **kırpma zaten kaçınılmaz.**
+Geriye yalnız seçim arayüzünün ne olacağı kalıyor, o da overlay.
+
+Kırpma GPU tarafında `CopySubresourceRegion` ile yapılır, maliyeti fazladan bir tam boy
+doku ve bir kopya — pratikte önemsiz. Sayısal alanla bölge seçtirmek v1'de bile
+kullanılamaz hissettirir; overlay her ciddi kaydedicinin standardı.
+
+Kayıt sırasında bölgeyi taşımak bu yolda bedava. Tek tuzak: kodlayıcı çözünürlüğü
+sabit, yani taşımak serbest ama **boyut değiştirmek** ya ölçekleme ister ya v1'de kilitli
+olmalı.
+
+**Asıl risk çoklu monitör + karışık DPI.** Overlay per-monitor DPI aware olmalı, seçim
+fiziksel piksele çevrilmeli. v1'de bölge tek monitörle sınırlı kalsın; iki WGC oturumu
+dikip birleştirmeye kalkma.
+
+## Açık karar
+
+**Yığın.** WGC ve WASAPI'nin ikisi de WinRT/COM. Adaylar:
+   - **C# / .NET 8 + WPF** — oturmuş, az sürpriz; CsWinRT ile WGC çalışır, kompozisyon
+     katmanı biraz elle bağlanır.
+   - **C# / .NET 8 + WinUI 3** — daha yeni kompozisyon, ama dağıtım için self-contained
+     yayın gerekir.
    - **C++ / WinRT** — en az katman, en yüksek maliyet.
 
-**2. Kayıt hattı.** Media Foundation Sink Writer mı, yoksa ffmpeg'i yanına koyup boru
-   mu? Sink Writer bağımsız çalışır ama kodek esnekliği dar; ffmpeg her şeyi kodlar ama
-   ~80 MB ikili taşır ve lisans anlatmayı gerektirir.
-
-**3. Bölge seçimi.** Overlay penceresi mi, yoksa yakalanan kareyi kırpma mı? Kırpma
-   basit ama seçim önizlemesi zayıf olur.
-
-Bu üçü karara bağlanmadan `src/` açılmadı.
+Bu karar bağlanmadan `src/` açılmadı.
