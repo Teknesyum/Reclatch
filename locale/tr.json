@@ -7,6 +7,12 @@
   "label.resolution": "Çözünürlük",
   "label.fps": "Kare hızı",
   "label.state": "Durum",
+  "audio.heading": "Ses kaynakları",
+  "audio.system": "Sistem sesi",
+  "audio.microphone": "Mikrofon",
+  "audio.systemFormat": "Sistem biçimi",
+  "audio.microphoneFormat": "Mikrofon biçimi",
+  "audio.deviceHint": "Kaydedilecek ses aygıtı. Kayıt sürerken değiştirilebilir; o kaynak yeniden başlar.",
   "state.idle": "Beklemede",
   "state.running": "Yakalıyor",
   "state.unsupported": "Desteklenmiyor",
@@ -18,5 +24,7 @@
   "error.failed": "Yakalama başlatılamadı: {message}",
   "caption.minimize": "Küçült",
   "caption.maximize": "Büyüt",
-  "caption.close": "Kapat"
+  "caption.close": "Kapat",
+  "error.audioDevices": "Ses aygıtları listelenemedi: {message}",
+  "error.audioStart": "Ses kaynağı açılamadı: {message}"
 }

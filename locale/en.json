@@ -7,6 +7,12 @@
   "label.resolution": "Resolution",
   "label.fps": "Frame rate",
   "label.state": "State",
+  "audio.heading": "Audio sources",
+  "audio.system": "System audio",
+  "audio.microphone": "Microphone",
+  "audio.systemFormat": "System format",
+  "audio.microphoneFormat": "Microphone format",
+  "audio.deviceHint": "The device to record from. It can be changed while recording; that source restarts.",
   "state.idle": "Idle",
   "state.running": "Capturing",
   "state.unsupported": "Unsupported",
@@ -18,5 +24,7 @@
   "error.failed": "Capture could not start: {message}",
   "caption.minimize": "Minimise",
   "caption.maximize": "Maximise",
-  "caption.close": "Close"
+  "caption.close": "Close",
+  "error.audioDevices": "Audio devices could not be listed: {message}",
+  "error.audioStart": "The audio source could not be opened: {message}"
 }

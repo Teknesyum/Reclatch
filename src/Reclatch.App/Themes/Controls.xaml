@@ -1,0 +1,196 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style x:Key="NeonCheckBox" TargetType="CheckBox">
+    <Setter Property="FontFamily" Value="{StaticResource FontSans}"/>
+    <Setter Property="FontSize" Value="16"/>
+    <Setter Property="Foreground" Value="{StaticResource TextBody}"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="SnapsToDevicePixels" Value="True"/>
+    <Setter Property="UseLayoutRounding" Value="True"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="CheckBox">
+          <StackPanel Orientation="Horizontal" Background="Transparent">
+            <Grid Width="24" Height="24">
+              <Border x:Name="box" Width="20" Height="20"
+                      Background="Transparent" BorderBrush="#8000F3FF" BorderThickness="1"
+                      CornerRadius="{StaticResource Radius}"
+                      SnapsToDevicePixels="True" UseLayoutRounding="True"/>
+              <Path x:Name="tick" Width="12" Height="10" Stretch="Uniform" Visibility="Collapsed"
+                    Stroke="{StaticResource NeonBlue}" StrokeThickness="2"
+                    StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Data="M 0,5 L 4,9 L 12,1"/>
+            </Grid>
+            <ContentPresenter VerticalAlignment="Center" Margin="8,0,0,0"/>
+          </StackPanel>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+              <Setter TargetName="tick" Property="Visibility" Value="Visible"/>
+              <Setter TargetName="box" Property="BorderBrush" Value="{StaticResource NeonBlue}"/>
+              <Setter TargetName="box" Property="Effect">
+                <Setter.Value>
+                  <DropShadowEffect Color="{StaticResource NeonBlueColor}" BlurRadius="10" ShadowDepth="0" Opacity="0.45"/>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="box" Property="BorderBrush" Value="{StaticResource NeonPink}"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+              <Setter TargetName="box" Property="BorderThickness" Value="2"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" Value="0.35"/>
+              <Setter Property="Cursor" Value="Arrow"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="NeonScrollBar" TargetType="ScrollBar">
+    <Setter Property="Width" Value="10"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ScrollBar">
+          <Border Background="#FF08090A" CornerRadius="{StaticResource Radius}">
+            <Track x:Name="PART_Track" IsDirectionReversed="True">
+              <Track.Thumb>
+                <Thumb>
+                  <Thumb.Template>
+                    <ControlTemplate TargetType="Thumb">
+                      <Border x:Name="th" Background="{StaticResource NeonBlue}" CornerRadius="5" Margin="2,0"/>
+                      <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                          <Setter TargetName="th" Property="Background" Value="{StaticResource NeonPink}"/>
+                        </Trigger>
+                        <Trigger Property="IsDragging" Value="True">
+                          <Setter TargetName="th" Property="Background" Value="{StaticResource NeonPurple}"/>
+                        </Trigger>
+                      </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                  </Thumb.Template>
+                </Thumb>
+              </Track.Thumb>
+              <Track.IncreaseRepeatButton>
+                <RepeatButton Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False"/>
+              </Track.IncreaseRepeatButton>
+              <Track.DecreaseRepeatButton>
+                <RepeatButton Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False"/>
+              </Track.DecreaseRepeatButton>
+            </Track>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="NeonComboBox" TargetType="ComboBox">
+    <Setter Property="FontFamily" Value="{StaticResource FontSans}"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Foreground" Value="{StaticResource TextBody}"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="MinHeight" Value="30"/>
+    <Setter Property="SnapsToDevicePixels" Value="True"/>
+    <Setter Property="ItemContainerStyle">
+      <Setter.Value>
+        <Style TargetType="ComboBoxItem">
+          <Setter Property="Foreground" Value="{StaticResource TextBody}"/>
+          <Setter Property="Padding" Value="10,7"/>
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="ComboBoxItem">
+                <Border x:Name="ib" Background="Transparent" Padding="{TemplateBinding Padding}"
+                        CornerRadius="{StaticResource Radius}">
+                  <ContentPresenter/>
+                </Border>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="IsHighlighted" Value="True">
+                    <Setter TargetName="ib" Property="Background" Value="#3300F3FF"/>
+                  </Trigger>
+                  <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource NeonBlue}"/>
+                  </Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ComboBox">
+          <Grid>
+            <ToggleButton x:Name="PART_Toggle" Focusable="False" ClickMode="Press"
+                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+              <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                  <Border x:Name="tb" Background="#FF08090A" BorderBrush="#4D00F3FF" BorderThickness="1"
+                          CornerRadius="{StaticResource Radius}" Padding="10,6"
+                          SnapsToDevicePixels="True" UseLayoutRounding="True">
+                    <Grid>
+                      <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                      <Path HorizontalAlignment="Right" VerticalAlignment="Center" Width="9" Height="6"
+                            Stretch="Uniform" Stroke="{StaticResource NeonBlue}" StrokeThickness="1.5"
+                            Data="M 0,0 L 4.5,5 L 9,0"/>
+                    </Grid>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter TargetName="tb" Property="BorderBrush" Value="{StaticResource NeonBlue}"/>
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </ToggleButton.Template>
+              <ContentPresenter Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                ContentTemplate="{Binding SelectionBoxItemTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                ContentStringFormat="{Binding SelectionBoxItemStringFormat, RelativeSource={RelativeSource TemplatedParent}}"/>
+            </ToggleButton>
+
+            <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"
+                   IsOpen="{TemplateBinding IsDropDownOpen}" PopupAnimation="Fade" Focusable="False">
+              <Border Background="#FF08090A" BorderBrush="#8000F3FF" BorderThickness="1"
+                      CornerRadius="{StaticResource Radius}" Padding="4" Margin="0,4,0,0"
+                      MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                      MaxHeight="240">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <ScrollViewer.Resources>
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource NeonScrollBar}"/>
+                  </ScrollViewer.Resources>
+                  <ItemsPresenter/>
+                </ScrollViewer>
+              </Border>
+            </Popup>
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" Value="0.35"/>
+              <Setter Property="Cursor" Value="Arrow"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="ToolTip">
+    <Setter Property="Foreground" Value="{StaticResource TextBody}"/>
+    <Setter Property="FontFamily" Value="{StaticResource FontSans}"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ToolTip">
+          <Border Background="#FF08090A" BorderBrush="#4D00F3FF" BorderThickness="1"
+                  CornerRadius="{StaticResource Radius}" Padding="10,7">
+            <ContentPresenter/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>

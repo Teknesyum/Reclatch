@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         Title="Reclatch"
-        Width="720" Height="520" MinWidth="600" MinHeight="460"
+        Width="880" Height="680" MinWidth="800" MinHeight="640"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource AppBg}"
@@ -35,19 +35,14 @@
                 Data="M 2,4 L 14,4 L 14,14 L 2,14 Z M 4,8 L 8,8"/>
           <TextBlock x:Name="TitleText" Text="Reclatch"
                      FontFamily="{StaticResource FontSans}" FontSize="14" FontWeight="Bold"
-                     Foreground="{StaticResource NeonBlue}" VerticalAlignment="Center">
-            <TextBlock.Resources>
-              <Style TargetType="TextBlock">
-                <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
-              </Style>
-            </TextBlock.Resources>
-          </TextBlock>
+                     Foreground="{StaticResource NeonBlue}" VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True">
           <Button x:Name="MinimizeButton" Style="{StaticResource CaptionButton}" Click="OnMinimize">
-            <Path Width="10" Height="2" Stretch="Fill" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+            <Path Width="10" Height="2" Stretch="Fill"
+                  Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
                   Data="M 0,0 L 10,0 L 10,2 L 0,2 Z"/>
           </Button>
           <Button x:Name="MaximizeButton" Style="{StaticResource CaptionButton}" Click="OnMaximize">
@@ -69,6 +64,9 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
           <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -80,7 +78,7 @@
           <TextBlock x:Name="Purpose" Style="{StaticResource Hint}"/>
         </StackPanel>
 
-        <Grid Grid.Row="2" VerticalAlignment="Top">
+        <Grid Grid.Row="2" Margin="0,0,0,24">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -103,7 +101,58 @@
           </StackPanel>
         </Grid>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,24,0,0">
+        <TextBlock x:Name="AudioHeading" Grid.Row="3" Style="{StaticResource H3}" Margin="0,0,0,16"/>
+
+        <Grid Grid.Row="4">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="220"/>
+            <ColumnDefinition Width="*" MinWidth="200"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+
+          <CheckBox x:Name="SystemToggle" Grid.Row="0" Grid.Column="0"
+                    Style="{StaticResource NeonCheckBox}" VerticalAlignment="Center"
+                    Margin="0,0,16,12" Checked="OnAudioToggled" Unchecked="OnAudioToggled"/>
+          <ComboBox x:Name="SystemDevice" Grid.Row="0" Grid.Column="1"
+                    Style="{StaticResource NeonComboBox}" VerticalAlignment="Center"
+                    Margin="0,0,16,12" DisplayMemberPath="Name"
+                    SelectionChanged="OnDeviceChanged"/>
+          <StackPanel x:Name="SystemMeter" Grid.Row="0" Grid.Column="2" Orientation="Horizontal"
+                      VerticalAlignment="Center" Margin="0,0,0,12"/>
+
+          <CheckBox x:Name="MicToggle" Grid.Row="1" Grid.Column="0"
+                    Style="{StaticResource NeonCheckBox}" VerticalAlignment="Center"
+                    Margin="0,0,16,0" Checked="OnAudioToggled" Unchecked="OnAudioToggled"/>
+          <ComboBox x:Name="MicDevice" Grid.Row="1" Grid.Column="1"
+                    Style="{StaticResource NeonComboBox}" VerticalAlignment="Center"
+                    Margin="0,0,16,0" DisplayMemberPath="Name"
+                    SelectionChanged="OnDeviceChanged"/>
+          <StackPanel x:Name="MicMeter" Grid.Row="1" Grid.Column="2" Orientation="Horizontal"
+                      VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="5" VerticalAlignment="Bottom" Margin="0,24,0,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+
+          <StackPanel Grid.Column="0">
+            <TextBlock x:Name="SystemFormatLabel" Style="{StaticResource Label}" Margin="0,0,0,8"/>
+            <TextBlock x:Name="SystemFormatValue" Style="{StaticResource MonoValue}" Text="—"/>
+          </StackPanel>
+
+          <StackPanel Grid.Column="1">
+            <TextBlock x:Name="MicFormatLabel" Style="{StaticResource Label}" Margin="0,0,0,8"/>
+            <TextBlock x:Name="MicFormatValue" Style="{StaticResource MonoValue}" Text="—"/>
+          </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,24,0,0">
           <Button x:Name="ToggleButton" Style="{StaticResource PrimaryButton}"
                   MinWidth="140" Click="OnToggleCapture"/>
         </StackPanel>

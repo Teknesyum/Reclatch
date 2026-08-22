@@ -124,4 +124,17 @@ Açık karar kalmadı. `src/` iskeleti kuruldu ve yakalama zinciri bu makinede d
 2560×1440, kare akıyor, büyütülmüş pencere çalışma alanını taşımıyor, TR/EN geçişi
 kırpmadan çalışıyor.
 
-Sırada v1 listesinin 5. maddesi var: WASAPI loopback ile sistem sesi.
+v1 listesinin 5. ve 6. maddeleri bitti: sistem sesi (WASAPI loopback) ve mikrofon ayrı
+ayrı açılıp kapanıyor, kaynak seçilebiliyor, seviye göstergesi çalışıyor.
+
+Yol boyunca çıkan üç şey:
+
+- **WASAPI karışım biçimi `Extensible` gelir, `IeeeFloat` değil.** Kodlamayı doğrudan
+  karşılaştırmak 32 bit float sesi hiç tanımıyordu ve seviye hep sıfır çıkıyordu.
+  `WaveFormatExtensible.ToStandardWaveFormat()` ile çözülüyor.
+- **Seviye göstergesi tepeyi tutup yavaşça düşürmeli.** Anlık tepe gösterilince sesin
+  sessiz anına denk gelen her bakışta gösterge boş görünüyor.
+- **Ölçek dB olmalı, doğrusal değil.** Doğrusal ölçekte normal seviyedeki ses on sekiz
+  çubuktan ikisini yakıyordu. Taban -60 dBFS.
+
+Sırada 7. madde var: ayrı ses izleri ve ffmpeg borusu.
