@@ -36,4 +36,6 @@ annotation, GIF export, scheduled recording, replay buffer.
 
 ## License
 
-MIT
+AGPL-3.0-or-later — see [LICENSE](LICENSE).
+
+Copyright (C) 2026 Teknesyum
